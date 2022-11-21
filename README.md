@@ -1,6 +1,5 @@
 # sunseeker-be
 
-
 ### Requirements
 
     maven 3.8.6, java 19

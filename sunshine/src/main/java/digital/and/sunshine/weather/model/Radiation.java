@@ -1,10 +1,19 @@
 package digital.and.sunshine.weather.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public record Radiation(
-        double ghi,
-        double dni,
-        double dhi,
-        double ghi_cs,
-        double dni_cs,
-        double dhi_cs) {
+    @JsonProperty("ghi")
+    double globalHorizontalIrradiance,
+    @JsonProperty("dni")
+    double directNormalIrradiance,
+    @JsonProperty("dhi")
+    double diffuseHorizontalIrradiance,
+    @JsonProperty("ghi_cs")
+    double globalHorizontalIrradianceClearSky,
+    @JsonProperty("dni_cs")
+    double directNormalIrradianceClearSky,
+    @JsonProperty("dhi_cs")
+    double diffuseHorizontalIrradianceClearSky) {
+
 }
