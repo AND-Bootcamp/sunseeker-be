@@ -1,9 +1,9 @@
 package digital.and.sunshine.sunseeker;
 
 import digital.and.sunshine.location.LocationSeekerService;
-import digital.and.sunshine.weather.SolarRadiationService;
-import digital.and.sunshine.weather.model.Coordination;
-import digital.and.sunshine.weather.response.SolarRadiationResponse;
+import digital.and.sunshine.weather.SunInfoService;
+import digital.and.sunshine.weather.provider.openuv.model.SunResponse;
+import digital.and.sunshine.weather.provider.openweathermap.model.Coordination;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,9 +21,9 @@ public class SunSeekerService {
   private static final int RANDOM_POINT_SIZE = 10;
 
   private final LocationSeekerService locationSeekerService;
-  private final SolarRadiationService solarRadiationService;
+  private final SunInfoService sunInfoService;
 
-  public List<SolarRadiationResponse> seekSunnyLocations(final Coordination coordination) {
+  public List<SunnyLocation> seekSunnyLocations(final Coordination coordination) {
 
     //TODO: all random generation can be parallel use VirtualThread or StructuredTaskScope for concurrency
     final Set<Coordination> randomCirclePoints = IntStream.range(0, RANDOM_POINT_SIZE)
@@ -42,12 +42,16 @@ public class SunSeekerService {
             Stream.concat(randomCirclePoints.stream(), randomCircumferencePoints.stream()), randomAnnulusPoint.stream())
         .collect(Collectors.toSet());
 
-    //TODO: filter by radiation and transform to list of SunnyLocation.java
-    // SolarRadiationResponse can be Comparable for sorting
-    return randomMixedCoordination.parallelStream()
-        .map(this.solarRadiationService::retrieveByCoordination)
-        .toList();
+    randomMixedCoordination.add(coordination);
 
+    final Set<SunnyLocation> sunnyLocations = randomMixedCoordination.parallelStream()
+        .<SunnyLocation>mapMulti((coor, sunnyLocationConsumer) -> {
+          final SunResponse sunResponse = this.sunInfoService.retrieveByCoordination(coordination);
+          sunnyLocationConsumer.accept(SunnyLocation.from(coor, sunResponse));
+        })
+        .collect(Collectors.toSet());
 
+    return sunnyLocations.stream().sorted().toList();
   }
+
 }

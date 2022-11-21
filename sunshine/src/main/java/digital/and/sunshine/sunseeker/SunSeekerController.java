@@ -1,7 +1,6 @@
 package digital.and.sunshine.sunseeker;
 
-import digital.and.sunshine.weather.model.Coordination;
-import digital.and.sunshine.weather.response.SolarRadiationResponse;
+import digital.and.sunshine.weather.provider.openweathermap.model.Coordination;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +17,7 @@ public class SunSeekerController {
   private final SunSeekerService sunSeekerService;
 
   @GetMapping
-  public ResponseEntity<List<SolarRadiationResponse>> seekSunnyLocations(
+  public ResponseEntity<List<SunnyLocation>> seekSunnyLocations(
       @RequestParam("lat") final double lat,
       @RequestParam("lon") final double lon) {
 

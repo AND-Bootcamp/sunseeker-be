@@ -1,6 +1,6 @@
 package digital.and.sunshine.location;
 
-import digital.and.sunshine.weather.model.Coordination;
+import digital.and.sunshine.weather.provider.openweathermap.model.Coordination;
 import java.util.random.RandomGenerator;
 import org.springframework.stereotype.Service;
 

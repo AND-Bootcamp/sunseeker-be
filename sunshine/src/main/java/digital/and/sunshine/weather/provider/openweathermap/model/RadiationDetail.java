@@ -1,4 +1,4 @@
-package digital.and.sunshine.weather.model;
+package digital.and.sunshine.weather.provider.openweathermap.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -1,7 +1,7 @@
-package digital.and.sunshine.weather.client;
+package digital.and.sunshine.weather.provider.openweathermap;
 
-import digital.and.sunshine.weather.model.Coordination;
-import digital.and.sunshine.weather.response.SolarRadiationResponse;
+import digital.and.sunshine.weather.provider.openweathermap.model.Coordination;
+import digital.and.sunshine.weather.provider.openweathermap.model.SolarRadiationResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

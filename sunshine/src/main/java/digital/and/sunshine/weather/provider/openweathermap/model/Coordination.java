@@ -1,4 +1,4 @@
-package digital.and.sunshine.weather.model;
+package digital.and.sunshine.weather.provider.openweathermap.model;
 
 public record Coordination(double lon, double lat) {
 
