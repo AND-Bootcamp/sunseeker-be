@@ -1,7 +1,7 @@
 package digital.and.sunshine.sunseeker;
 
 import digital.and.sunshine.weather.provider.openuv.model.SunResponse;
-import digital.and.sunshine.weather.provider.openweathermap.model.Coordination;
+import digital.and.sunshine.location.Coordination;
 
 public record SunnyLocation(Coordination coordination, UVLevel uvLevel) implements Comparable<SunnyLocation> {
 

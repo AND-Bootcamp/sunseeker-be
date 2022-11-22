@@ -3,7 +3,7 @@ package digital.and.sunshine.sunseeker;
 import digital.and.sunshine.location.LocationSeekerService;
 import digital.and.sunshine.weather.SunInfoService;
 import digital.and.sunshine.weather.provider.openuv.model.SunResponse;
-import digital.and.sunshine.weather.provider.openweathermap.model.Coordination;
+import digital.and.sunshine.location.Coordination;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;

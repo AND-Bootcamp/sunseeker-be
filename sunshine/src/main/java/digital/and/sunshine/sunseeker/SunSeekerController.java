@@ -1,6 +1,6 @@
 package digital.and.sunshine.sunseeker;
 
-import digital.and.sunshine.weather.provider.openweathermap.model.Coordination;
+import digital.and.sunshine.location.Coordination;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
