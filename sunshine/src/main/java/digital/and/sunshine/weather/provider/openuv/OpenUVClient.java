@@ -4,6 +4,9 @@ import digital.and.sunshine.location.Coordination;
 import digital.and.sunshine.weather.provider.openuv.auth.RequestOptions;
 import digital.and.sunshine.weather.provider.openuv.auth.TokenProvider;
 import digital.and.sunshine.weather.provider.openuv.model.SunResponse;
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +33,9 @@ public class OpenUVClient {
   private final RequestOptions requestOptions;
   private final TokenProvider tokenProvider;
 
-
+  @Retry(name = "openuv")
+  @Bulkhead(name = "openuv")
+  @CircuitBreaker(name = "openuv")
   public SunResponse retrieveByCoordination(final Coordination coordination) {
 
     final UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl(this.requestOptions.getBaseUrl())
