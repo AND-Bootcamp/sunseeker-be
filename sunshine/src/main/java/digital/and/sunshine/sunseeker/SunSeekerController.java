@@ -17,14 +17,14 @@ public class SunSeekerController {
   private final SunSeekerService sunSeekerService;
 
   @GetMapping
-  public ResponseEntity<List<SunnyLocation>> seekSunnyLocations(
+  public ResponseEntity<SunnyLocations> seekSunnyLocations(
       @RequestParam("lat") final double lat,
       @RequestParam("lon") final double lon) {
 
     final Coordination coor = new Coordination(lon, lat);
 
-    final var solarRadiationResponse = this.sunSeekerService.seekSunnyLocations(coor);
+    final var sunnyLocations = this.sunSeekerService.seekSunnyLocations(coor);
 
-    return ResponseEntity.ok(solarRadiationResponse);
+    return ResponseEntity.ok(sunnyLocations);
   }
 }

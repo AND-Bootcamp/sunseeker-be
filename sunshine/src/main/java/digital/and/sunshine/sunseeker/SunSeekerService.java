@@ -23,7 +23,7 @@ public class SunSeekerService {
   private final LocationSeekerService locationSeekerService;
   private final SunInfoService sunInfoService;
 
-  public List<SunnyLocation> seekSunnyLocations(final Coordination coordination) {
+  public SunnyLocations seekSunnyLocations(final Coordination coordination) {
 
     //TODO: all random generation can be parallel use VirtualThread or StructuredTaskScope for concurrency
     final Set<Coordination> randomCirclePoints = IntStream.range(0, RANDOM_POINT_SIZE)
@@ -42,16 +42,18 @@ public class SunSeekerService {
             Stream.concat(randomCirclePoints.stream(), randomCircumferencePoints.stream()), randomAnnulusPoint.stream())
         .collect(Collectors.toSet());
 
-    randomMixedCoordination.add(coordination);
-
-    final Set<SunnyLocation> sunnyLocations = randomMixedCoordination.parallelStream()
+    final List<SunnyLocation> sunnyLocations = randomMixedCoordination.parallelStream()
         .<SunnyLocation>mapMulti((coor, sunnyLocationConsumer) -> {
           final SunResponse sunResponse = this.sunInfoService.retrieveByCoordination(coordination);
           sunnyLocationConsumer.accept(SunnyLocation.from(coor, sunResponse));
         })
-        .collect(Collectors.toSet());
+        .collect(Collectors.toSet())
+        .stream().sorted()
+        .toList();
 
-    return sunnyLocations.stream().sorted().toList();
+    final SunResponse sunByUserLocation = this.sunInfoService.retrieveByCoordination(coordination);
+
+    return new SunnyLocations(SunnyLocation.from(coordination, sunByUserLocation), sunnyLocations);
   }
 
 }
