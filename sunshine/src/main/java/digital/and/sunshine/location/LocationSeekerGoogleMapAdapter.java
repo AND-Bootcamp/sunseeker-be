@@ -2,28 +2,34 @@ package digital.and.sunshine.location;
 
 import com.google.maps.GeoApiContext;
 import com.google.maps.PlacesApi;
+import com.google.maps.errors.ApiException;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.PlacesSearchResponse;
 import com.google.maps.model.PlacesSearchResult;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
-@ConditionalOnProperty(prefix = "location-seeker", name = "google-map.enabled", havingValue = "true")
+@ConditionalOnProperty(value = "location-seeker.google-map.enabled", havingValue = "true")
 public class LocationSeekerGoogleMapAdapter implements LocationSeekerService {
+
+  @Value("${google-map.api-key}")
+  private String apiKey;
 
   @Override
   public Places getNearPlaces(final RetrieveNearPlaces retrieveNearPlaces) {
     try {
       final GeoApiContext context = new GeoApiContext.Builder()
-          .apiKey("a6905bec531bcc6b8cebf3169540bc24")
+          .apiKey(this.apiKey)
           .build();
 
       final LatLng latLng = this.getLatLng(retrieveNearPlaces);
@@ -32,6 +38,8 @@ public class LocationSeekerGoogleMapAdapter implements LocationSeekerService {
           .radius(retrieveNearPlaces.radiusInMeter())
           .await();
 
+      log.debug("Response {}", List.of(placesSearchResponse.results));
+
       final List<Coordinates> coordinatesList = Arrays.stream(placesSearchResponse.results)
           .map(this::getCoordinates)
           .toList();
@@ -39,8 +47,10 @@ public class LocationSeekerGoogleMapAdapter implements LocationSeekerService {
       context.shutdown();
 
       return new Places(coordinatesList);
-    } catch (final Exception e) {
-      log.error("Exception has been occurred ", e);
+    } catch (final ApiException | IOException e) {
+      throw new RuntimeException(e);
+    } catch (final InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new RuntimeException(e);
     }
   }

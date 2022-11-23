@@ -20,9 +20,9 @@ public class SunSeekerController {
       @RequestParam("lat") final double lat,
       @RequestParam("lon") final double lon) {
 
-    final Coordinates coor = new Coordinates(lon, lat);
+    final Coordinates coordinates = Coordinates.of(lon, lat);
 
-    final var sunnyLocations = this.sunSeekerService.seekSunnyLocations(coor);
+    final var sunnyLocations = this.sunSeekerService.seekSunnyLocations(coordinates);
 
     return ResponseEntity.ok(sunnyLocations);
   }
