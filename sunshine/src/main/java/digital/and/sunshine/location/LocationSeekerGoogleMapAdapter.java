@@ -24,7 +24,6 @@ public class LocationSeekerGoogleMapAdapter implements LocationSeekerService {
     try {
       final GeoApiContext context = new GeoApiContext.Builder()
           .apiKey("a6905bec531bcc6b8cebf3169540bc24")
-          //.apiKey("AIzaSyBXxJFzycmI4A6vWVQaSCj4b7jB22H9-fI")
           .build();
 
       final LatLng latLng = this.getLatLng(retrieveNearPlaces);
