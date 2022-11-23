@@ -1,7 +1,6 @@
 package digital.and.sunshine.sunseeker;
 
-import digital.and.sunshine.location.Coordination;
-import java.util.List;
+import digital.and.sunshine.location.Coordinates;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +16,11 @@ public class SunSeekerController {
   private final SunSeekerService sunSeekerService;
 
   @GetMapping
-  public ResponseEntity<SunnyLocations> seekSunnyLocations(
+  public ResponseEntity<SunDetailsForLocations> seekSunnyLocations(
       @RequestParam("lat") final double lat,
       @RequestParam("lon") final double lon) {
 
-    final Coordination coor = new Coordination(lon, lat);
+    final Coordinates coor = new Coordinates(lon, lat);
 
     final var sunnyLocations = this.sunSeekerService.seekSunnyLocations(coor);
 

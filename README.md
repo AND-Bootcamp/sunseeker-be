@@ -87,21 +87,24 @@ You should get a 200 response with a Response body like this:
 
 ```
 {
-    "userLocation": {
-        "coordination": {
-            "lon": 2,
-            "lat": 1
-        },
-        "uvLevel": "VERY_HIGH"
-    },
-    "alternatives": [
-        {
-            "coordination": {
-                "lon": 1.9999999999999774,
-                "lat": 1
-            },
-            "uvLevel": "VERY_HIGH"
-        }
-    ]
+   "userLocation":{
+      "coordination":{
+         "lon":2,
+         "lat":1
+      },
+      "uvLevel":"VERY_HIGH"
+   },
+   "alternatives":[
+      {
+         "coordination":{
+            "lon":1.9999999999999774,
+            "lat":1
+         },
+         "uvDetail":{
+            "uvLevel":"LOW",
+            "uvValue":0.0615
+         }
+      }
+   ]
 }
 ```

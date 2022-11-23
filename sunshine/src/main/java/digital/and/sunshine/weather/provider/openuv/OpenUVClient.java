@@ -1,6 +1,6 @@
 package digital.and.sunshine.weather.provider.openuv;
 
-import digital.and.sunshine.location.Coordination;
+import digital.and.sunshine.location.Coordinates;
 import digital.and.sunshine.weather.provider.openuv.auth.RequestOptions;
 import digital.and.sunshine.weather.provider.openuv.auth.TokenProvider;
 import digital.and.sunshine.weather.provider.openuv.model.SunResponse;
@@ -36,11 +36,11 @@ public class OpenUVClient {
   @Retry(name = "openuv")
   @Bulkhead(name = "openuv")
   @CircuitBreaker(name = "openuv")
-  public SunResponse retrieveByCoordination(final Coordination coordination) {
+  public SunResponse retrieveByCoordination(final Coordinates coordinates) {
 
     final UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl(this.requestOptions.getBaseUrl())
-        .queryParam(LAT, coordination.lat())
-        .queryParam(LON, coordination.lon())
+        .queryParam(LAT, coordinates.lat())
+        .queryParam(LON, coordinates.lon())
         .build();
 
     log.info("Request Uri {}", uriComponents);
