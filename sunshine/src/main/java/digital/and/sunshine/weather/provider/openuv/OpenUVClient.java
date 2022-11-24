@@ -71,6 +71,7 @@ public class OpenUVClient {
         return response.getBody();
       }
 
+      log.warn("Impossible execute call : {}}", ex);
       throw ex;
     }
   }

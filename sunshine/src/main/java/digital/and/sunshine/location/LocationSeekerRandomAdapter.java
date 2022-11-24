@@ -1,5 +1,7 @@
 package digital.and.sunshine.location;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.stream.IntStream;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -45,9 +47,8 @@ public class LocationSeekerRandomAdapter implements LocationSeekerService {
     final var dy = r * Math.sin(theta);
     final var dx = r * Math.cos(theta);
 
-    final var newLatitude = coordinates.lat() + dy / DEGREE;
-    final var newLongitude = coordinates.lon() + dx / (DEGREE * Math.cos(toRadians(coordinates.lat())));
-
+    final var newLatitude = BigDecimal.valueOf(coordinates.lat() + dy / DEGREE).setScale(6, RoundingMode.HALF_UP).doubleValue();
+    final var newLongitude = BigDecimal.valueOf(coordinates.lon() + dx / (DEGREE * Math.cos(toRadians(coordinates.lat())))).setScale(6, RoundingMode.HALF_UP).doubleValue();
     return Coordinates.of(newLongitude, newLatitude);
   }
 

@@ -9,11 +9,14 @@ import digital.and.sunshine.weather.provider.openuv.model.SunResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class SunSeekerService {
+
 
   private final SunInfoService sunInfoService;
   private final SunSeekerProperties sunSeekerProperties;
