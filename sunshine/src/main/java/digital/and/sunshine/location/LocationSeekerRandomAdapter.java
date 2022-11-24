@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 @Service
-@ConditionalOnProperty(prefix = "location-seeker", name = "random.enabled", havingValue = "true")
+@ConditionalOnProperty(value = "location-seeker.random.enabled", havingValue = "true")
 public class LocationSeekerRandomAdapter implements LocationSeekerService {
 
   private static final int EARTH_RADIUS = 6371; // km
@@ -37,7 +37,6 @@ public class LocationSeekerRandomAdapter implements LocationSeekerService {
 
   private Coordinates generateCoordinates(final Coordinates coordinates, final int radius) {
     // random distance within [min-max] in km in a non-uniform way
-
     final var maxKm = radius * 1000;
     final var minKm = 0;
     final var r = ((maxKm - minKm + 1) * Math.random() * 0.5) + minKm;
