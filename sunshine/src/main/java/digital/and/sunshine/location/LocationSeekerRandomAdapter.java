@@ -48,8 +48,8 @@ public class LocationSeekerRandomAdapter implements LocationSeekerService {
     final var dy = r * Math.sin(theta);
     final var dx = r * Math.cos(theta);
 
-    final var newLatitude = new BigDecimal(coordinates.lat() + dy / DEGREE).setScale(6, RoundingMode.HALF_UP).doubleValue();
-    final var newLongitude = new BigDecimal(coordinates.lon() + dx / (DEGREE * Math.cos(toRadians(coordinates.lat())))).setScale(6, RoundingMode.HALF_UP).doubleValue();
+    final var newLatitude = BigDecimal.valueOf(coordinates.lat() + dy / DEGREE).setScale(6, RoundingMode.HALF_UP).doubleValue();
+    final var newLongitude = BigDecimal.valueOf(coordinates.lon() + dx / (DEGREE * Math.cos(toRadians(coordinates.lat())))).setScale(6, RoundingMode.HALF_UP).doubleValue();
     return Coordinates.of(newLongitude, newLatitude);
   }
 
