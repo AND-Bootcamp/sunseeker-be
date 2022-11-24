@@ -15,19 +15,15 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class SunSeekerService {
 
-  //TODO: should be configurable
-  private static final int RADIUS = 15; //km
-  private static final int NUMBER_OF_PLACES = 10;
-
-  private final LocationSeekerService locationSeekerService;
   private final SunInfoService sunInfoService;
+  private final SunSeekerProperties sunSeekerProperties;
+  private final LocationSeekerService locationSeekerService;
 
   public SunDetailsForLocations seekSunnyLocations(final Coordinates coordinates) {
-    //TODO: use google nearly search api instead of random location
 
     final RetrieveNearPlaces retrieveNearPlaces = RetrieveNearPlaces.builder()
-        .radius(RADIUS)
-        .numberOfPlaces(NUMBER_OF_PLACES)
+        .radius(this.sunSeekerProperties.getRadiusInKm())
+        .numberOfPlaces(this.sunSeekerProperties.getRandomNumberOfPlaces())
         .coordinates(coordinates)
         .build();
 
